@@ -3,6 +3,8 @@ const path = require("node:path");
 const { Client, Events, GatewayIntentBits } = require("discord.js");
 const TOKEN = `${process.env['TOKEN']}`;
 
+const http = require('http');
+
 http.createServer((req, res) => {
   res.write("I'm alive");
   res.end();
