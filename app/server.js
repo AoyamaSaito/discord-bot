@@ -3,6 +3,24 @@ const path = require("node:path");
 const { Client, Events, GatewayIntentBits } = require("discord.js");
 const TOKEN = `${process.env['TOKEN']}`;
 
+// GAS用のKeep-Aliveサーバー
+http.createServer((req, res) => {
+  // CORS対応
+  res.writeHead(200, {
+    'Content-Type': 'text/plain',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  });
+  
+  const timestamp = new Date().toISOString();
+  console.log(`Keep-alive request: ${req.method} ${req.url} at ${timestamp}`);
+  
+  res.end(`Discord Bot is alive! Last ping: ${timestamp}`);
+}).listen(3000, '0.0.0.0', () => {
+  console.log('Keep-alive server running on port 3000');
+});
+
 const client = new Client({
   intents: Object.keys(GatewayIntentBits).map((a) => {
     return GatewayIntentBits[a];
